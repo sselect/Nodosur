@@ -1,0 +1,53 @@
+name: Agente de empleos 24/7
+
+# Despierta el servicio (Render Free se duerme) y dispara el agente.
+# La app decide si corresponde ejecutar según el intervalo configurado en el panel.
+# Requiere los secrets del repo: NODOSUR_URL (ej. https://nodosur.onrender.com) y AGENT_TOKEN.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Forzar ejecución aunque no toque por intervalo"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verificar secrets
+        id: check
+        env:
+          URL: ${{ secrets.NODOSUR_URL }}
+          TOKEN: ${{ secrets.AGENT_TOKEN }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$TOKEN" ]; then
+            echo "::notice::Faltan los secrets NODOSUR_URL y/o AGENT_TOKEN; se omite la ejecución."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Despertar servicio
+        if: steps.check.outputs.ready == 'true'
+        env:
+          URL: ${{ secrets.NODOSUR_URL }}
+        run: curl -fsS --retry 6 --retry-delay 15 --retry-all-errors --max-time 90 "$URL/healthz"
+      - name: Ejecutar agente
+        if: steps.check.outputs.ready == 'true'
+        env:
+          URL: ${{ secrets.NODOSUR_URL }}
+          TOKEN: ${{ secrets.AGENT_TOKEN }}
+          FORCE: ${{ inputs.force && 'true' || 'false' }}
+        run: |
+          curl -fsS --retry 3 --retry-delay 20 --retry-all-errors --max-time 180 \
+            -X POST "$URL/api/agent/run?force=$FORCE" \
+            -H "Authorization: Bearer $TOKEN" | tee result.json
+          echo "### Resultado del agente" >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"; cat result.json >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,388 @@
+{% from "_icons.html" import icon, logo %}
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ company.name }} · Soporte TI N2/N3, Cloud, Web, ERP e IA aplicada</title>
+  <meta name="description" content="{{ company.pitch }}">
+  <meta name="theme-color" content="#050807">
+  <script>document.documentElement.classList.add("js")</script>
+  <meta property="og:title" content="{{ company.name }} · {{ company.tagline }}">
+  <meta property="og:description" content="{{ company.pitch }}">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/landing.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ProfessionalService","name":"{{ company.name }}","description":"{{ company.pitch }}","email":"{{ company.email }}","areaServed":["CL","LatAm","ES"],"address":{"@type":"PostalAddress","addressLocality":"Santiago","addressCountry":"CL"}}
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<header class="site-header" id="top">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="{{ company.name }}, inicio">{{ logo() }}<span>nodo<b>sur</b></span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+      <span class="sr-only">Abrir menú</span>{{ icon("menu") }}
+    </button>
+    <nav id="nav-menu" class="nav-menu" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#ia">IA aplicada</a>
+      <a href="#erp">ERP Pyme</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#faq">Preguntas</a>
+      <a class="btn btn-primary btn-sm" href="#contacto">Agenda un diagnóstico</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO: escena fijada, la consola se revela con el scroll -->
+  <section class="hero-scene" data-scene aria-labelledby="hero-title">
+    <div class="scene-sticky">
+      <div class="hero-copy container">
+        <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span>Soporte TI N2/N3 · Cloud · Web · ERP · IA aplicada</p>
+        <h1 id="hero-title">Tecnología que no se cae.<br><span class="signal-text">IA que sí trabaja.</span></h1>
+        <p class="lead">{{ company.pitch }}</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contacto">Agenda un diagnóstico gratis {{ icon("arrow", 20) }}</a>
+          <a class="btn btn-secondary" href="/descargas/catalogo-servicios-nodosur.xlsx" download>{{ icon("download", 20) }} Catálogo y precios (.xlsx)</a>
+        </div>
+      </div>
+      <div class="hero-stage" aria-hidden="false">
+        <div class="ops-console" role="img" aria-label="Ejemplo: un agente de NodoSur detecta un incidente, crea un ticket y espera aprobación humana para actuar">
+          <div class="console-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="mono">nodosur · agente-ops</span>
+            <span class="status mono"><span class="live-dot" aria-hidden="true"></span>en vivo</span>
+          </div>
+          <ol class="console-log mono" aria-hidden="true">
+            <li><span class="t">09:41:02</span> <span class="ok">✓</span> 214 servicios monitoreados · sin alertas</li>
+            <li><span class="t">09:41:37</span> <span class="warn">!</span> api-pagos: latencia p95 2.8 s (umbral 1.5 s)</li>
+            <li><span class="t">09:41:38</span> <span class="ai">◆</span> analizando 1.204 líneas de log…</li>
+            <li><span class="t">09:41:44</span> <span class="ai">◆</span> causa probable: pool de conexiones BD agotado</li>
+            <li><span class="t">09:41:45</span> <span class="ok">→</span> ticket INC-2087 creado · prioridad P2</li>
+            <li><span class="t">09:41:46</span> <span class="ok">→</span> aviso enviado a guardia N3</li>
+            <li><span class="t">09:41:46</span> <span class="hold">⏸</span> reinicio del pool: espera aprobación humana</li>
+          </ol>
+          <p class="console-foot mono">Ilustración del servicio IA-03 · Agentes para operaciones IT</p>
+        </div>
+      </div>
+      <div class="hero-caption" aria-hidden="true"><h2>Tu operación, vigilada 24/7.</h2><p>El agente detecta, explica y abre el ticket. Tú apruebas lo crítico.</p></div>
+      <p class="scroll-hint mono" aria-hidden="true">Desliza</p>
+    </div>
+  </section>
+
+  <section class="stats-band" aria-label="NodoSur en números">
+    <dl class="container stats">
+      {% for value, label in stats %}
+      <div data-reveal><dt>{{ label }}</dt><dd>{{ value }}</dd></div>
+      {% endfor %}
+    </dl>
+  </section>
+
+  <!-- DECLARACIÓN -->
+  <section class="statement" aria-labelledby="statement-title">
+    <div class="container">
+      <h2 id="statement-title" data-reveal>Un equipo completo de TI.<br><span class="muted">Sin contratar un área completa.</span></h2>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section" id="servicios" aria-labelledby="servicios-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="kicker mono">{{ service_count }} servicios · 6 áreas</p>
+        <h2 id="servicios-title">Todo lo que tu tecnología necesita</h2>
+        <p class="section-lead">Elige un servicio puntual o combínalos. Todos tienen precio de entrada publicado, en pesos y neto de IVA.</p>
+      </div>
+      <div class="bento">
+        {% for area in areas %}
+        <article class="area-card {{ 'area-featured' if area.key == 'ia' else '' }}" id="area-{{ area.key }}" data-reveal>
+          <header>
+            <span class="area-icon">{{ icon(area.icon) }}</span>
+            <h3>{{ area.name }}</h3>
+            <p>{{ area.summary }}</p>
+          </header>
+          <ul class="svc-list">
+            {% for s in area.services %}
+            <li>
+              <span class="svc-code mono">{{ s.code }}</span>
+              <span class="svc-name">{{ s.name }}</span>
+              <span class="svc-price">desde <b>{{ s.price_from | clp }}</b> <small>{{ s.unit }}</small></span>
+            </li>
+            {% endfor %}
+          </ul>
+        </article>
+        {% endfor %}
+        <article class="area-card area-cta" data-reveal>
+          <header>
+            <span class="area-icon">{{ icon("download") }}</span>
+            <h3>Todos los precios, en un Excel</h3>
+            <p>Catálogo completo por área con entregables, SLA, IVA calculado y un cotizador para estimar tu presupuesto en minutos.</p>
+          </header>
+          <a class="btn btn-primary" href="/descargas/catalogo-servicios-nodosur.xlsx" download>{{ icon("download", 20) }} Descargar catálogo (.xlsx)</a>
+        </article>
+      </div>
+      <p class="fineprint">Precios referenciales en CLP, netos (+IVA). La propuesta final se cierra después del diagnóstico.</p>
+    </div>
+  </section>
+
+  <!-- IA: escena fijada por pasos -->
+  <section class="ia-scene" id="ia" data-scene data-steps="4" aria-labelledby="ia-title">
+    <div class="scene-sticky">
+      <div class="container ia-split">
+        <div class="ia-text">
+          <p class="kicker mono">IA aplicada a tu operación</p>
+          <h2 id="ia-title">Agentes que trabajan.<br>Humanos que deciden.</h2>
+          <ol class="ia-steps">
+            <li data-step="0"><span class="mono">01</span><div><b>Conecta</b><p>Lee tus fuentes: correo, documentos, logs, ERP o base de datos, solo con permisos de lectura.</p></div></li>
+            <li data-step="1"><span class="mono">02</span><div><b>Entiende</b><p>Clasifica, resume y detecta lo importante con el modelo adecuado para cada paso.</p></div></li>
+            <li data-step="2"><span class="mono">03</span><div><b>Actúa</b><p>Crea tickets, responde, carga datos o genera reportes. Lo crítico espera tu aprobación.</p></div></li>
+            <li data-step="3"><span class="mono">04</span><div><b>Rinde cuentas</b><p>Cada acción queda registrada y medida en tu reporte mensual.</p></div></li>
+          </ol>
+        </div>
+        <div class="ia-visual" aria-hidden="true">
+          <div class="pipeline">
+            <div class="node" data-step="0"><span class="mono">fuentes</span><b>Correo · PDF · Logs · ERP</b></div>
+            <div class="wire"></div>
+            <div class="node" data-step="1"><span class="mono">modelo</span><b>Clasificar · Resumir · Detectar</b></div>
+            <div class="wire"></div>
+            <div class="node" data-step="2"><span class="mono">acción</span><b>Ticket · Respuesta · Carga · Reporte</b><em class="mono">aprobación humana</em></div>
+            <div class="wire"></div>
+            <div class="node" data-step="3"><span class="mono">auditoría</span><b>Registro · Costos · Precisión</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ia-services-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="kicker mono">Servicios de IA</p>
+        <h2 id="ia-services-title">Cuatro formas de poner la IA a trabajar</h2>
+        <p class="section-lead">Permisos mínimos, registro de cada acción y el modelo adecuado para cada tarea, así el costo de IA se mantiene bajo y predecible.</p>
+      </div>
+      <div class="ia-grid">
+        {% for s in areas[0].services %}
+        <article class="ia-card" data-reveal>
+          <span class="svc-code mono">{{ s.code }}</span>
+          <h3>{{ s.name }}</h3>
+          <p>{{ s.description }}</p>
+          <p class="ia-deliv"><b>Incluye:</b> {{ s.deliverables }}.</p>
+          <p class="ia-price">desde <b>{{ s.price_from | clp }}</b> <small>{{ s.unit }}</small></p>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="ia-demo" data-reveal>
+        <div>
+          <h3>Pruébalo ahora: conversa con Nodo</h3>
+          <p>Nodo es nuestro propio chatbot, el mismo servicio IA-01 que implementamos para empresas. Pregúntale por servicios, precios o plazos.</p>
+        </div>
+        <button class="btn btn-primary" type="button" data-open-chat>{{ icon("chat", 20) }} Abrir el chat</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERP -->
+  <section class="section" id="erp" aria-labelledby="erp-title">
+    <div class="container erp-grid">
+      <div data-reveal>
+        <p class="kicker mono">NodoSur ERP · acceso anticipado</p>
+        <h2 id="erp-title">El ERP que tu pyme sí va a usar</h2>
+        <p class="section-lead">Inventario, ventas, compras y clientes en la nube. Diseñado por gente que implementa ERP Oracle en grandes empresas, pensado para equipos de 1 a 10 personas.</p>
+        <ul class="checks">
+          <li>{{ icon("check", 20) }} Stock por bodega con alertas de quiebre</li>
+          <li>{{ icon("check", 20) }} Ventas y compras con historial por cliente y proveedor</li>
+          <li>{{ icon("check", 20) }} Reportes listos y exportación a Excel</li>
+          <li>{{ icon("check", 20) }} Asistente IA para consultar tu inventario en lenguaje natural</li>
+        </ul>
+        <div class="plans">
+          {% for s in areas[5].services[:2] %}
+          <div class="plan">
+            <p class="mono">{{ s.code }}</p>
+            <h3>{{ s.name.replace("NodoSur ERP · ", "") }}</h3>
+            <p class="plan-price">{{ s.price_from | clp }}<small> /{{ s.unit }} + IVA</small></p>
+            <p>{{ s.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        <a class="btn btn-primary" href="#contacto" data-service="NodoSur ERP · demo">Solicita una demo {{ icon("arrow", 20) }}</a>
+      </div>
+      <figure class="erp-mock" data-reveal aria-label="Vista ilustrativa del módulo de inventario de NodoSur ERP">
+        <div class="mock-top"><span class="mono">Inventario · Bodega central</span><span class="chip">3 alertas</span></div>
+        <table>
+          <caption class="sr-only">Ejemplo de inventario</caption>
+          <thead><tr><th scope="col">SKU</th><th scope="col">Producto</th><th scope="col">Stock</th><th scope="col">Estado</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">CAF-250</td><td>Café grano 250 g</td><td>142</td><td><span class="pill ok">OK</span></td></tr>
+            <tr><td class="mono">TAZ-012</td><td>Taza cerámica</td><td>8</td><td><span class="pill warn">Bajo</span></td></tr>
+            <tr><td class="mono">FIL-100</td><td>Filtros papel x100</td><td>0</td><td><span class="pill err">Quiebre</span></td></tr>
+            <tr><td class="mono">MOL-001</td><td>Molinillo manual</td><td>23</td><td><span class="pill ok">OK</span></td></tr>
+          </tbody>
+        </table>
+        <div class="mock-ask"><span class="mono">IA</span> “¿Qué productos se quedan sin stock esta semana?”</div>
+        <figcaption class="mono">Datos de ejemplo</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="section" aria-labelledby="proceso-title">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="kicker mono">Cómo trabajamos</p>
+        <h2 id="proceso-title">De la primera llamada a la operación estable</h2>
+      </div>
+      <ol class="steps">
+        {% for title, text in process %}
+        <li data-reveal><span class="step-n mono">0{{ loop.index }}</span><h3>{{ title }}</h3><p>{{ text }}</p></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- NOSOTROS -->
+  <section class="section" id="nosotros" aria-labelledby="nosotros-title">
+    <div class="container about-grid">
+      <div data-reveal>
+        <p class="kicker mono">Quiénes somos</p>
+        <h2 id="nosotros-title">Ingeniería senior y agentes de IA, un solo equipo</h2>
+        <div class="mv">
+          <div><h3>Misión</h3><p>{{ company.mission }}</p></div>
+          <div><h3>Visión</h3><p>{{ company.vision }}</p></div>
+        </div>
+        <ul class="values">
+          {% for name, text in company["values"] %}
+          <li><b>{{ name }}.</b> {{ text }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <aside class="founder" data-reveal aria-label="Fundador">
+        <div class="avatar mono" aria-hidden="true">EH</div>
+        <h3>{{ company.founder.name }}</h3>
+        <p class="mono role">{{ company.founder.role }}</p>
+        <p>{{ company.founder.bio }}</p>
+        <p class="loc">{{ icon("pin", 18) }} {{ company.location }}</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container narrow">
+      <h2 id="faq-title" data-reveal>Preguntas frecuentes</h2>
+      <div class="faq">
+        {% for q, a in faq %}
+        <details data-reveal><summary>{{ q }}</summary><p>{{ a }}</p></details>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="section contact" id="contacto" aria-labelledby="contacto-title">
+    <div class="container contact-grid">
+      <div data-reveal>
+        <p class="kicker mono">Diagnóstico gratis · 45 minutos</p>
+        <h2 id="contacto-title">Cuéntanos qué necesitas resolver</h2>
+        <p class="section-lead">Te respondemos en menos de 24 horas hábiles con una propuesta de próximos pasos. Sin compromiso.</p>
+        <ul class="contact-info">
+          <li>{{ icon("mail", 20) }} <a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+          <li>{{ icon("pin", 20) }} {{ company.location }}</li>
+          <li>{{ icon("shield", 20) }} Tus datos solo se usan para responderte.</li>
+        </ul>
+      </div>
+      <form class="contact-form" id="contact-form" novalidate data-reveal>
+        <input type="hidden" name="kind" value="contact">
+        <div class="hp" aria-hidden="true"><label>Sitio web <input name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="field">
+          <label for="c-name">Nombre</label>
+          <input id="c-name" name="name" required minlength="2" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="c-email">Correo</label>
+          <input id="c-email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-company">Empresa <span class="opt">(opcional)</span></label>
+            <input id="c-company" name="company" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="c-phone">Teléfono <span class="opt">(opcional)</span></label>
+            <input id="c-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-service">Servicio de interés</label>
+          <select id="c-service" name="service">
+            <option value="">Aún no lo sé, quiero el diagnóstico</option>
+            {% for area in areas %}
+            <optgroup label="{{ area.name }}">
+              {% for s in area.services %}<option value="{{ s.code }} · {{ s.name }}">{{ s.code }} · {{ s.name }}</option>{% endfor %}
+            </optgroup>
+            {% endfor %}
+            <option value="NodoSur ERP · demo">NodoSur ERP · solicitar demo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-message">Mensaje</label>
+          <textarea id="c-message" name="message" rows="4" placeholder="Ej.: somos 15 personas, el correo falla seguido y queremos ordenar el inventario."></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">{{ icon("send", 20) }} Enviar solicitud</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand" href="/">{{ logo() }}<span>nodo<b>sur</b></span></a>
+      <p>{{ company.tagline }}</p>
+    </div>
+    <nav aria-label="Pie de página">
+      <a href="#servicios">Servicios</a>
+      <a href="#ia">IA aplicada</a>
+      <a href="#erp">ERP Pyme</a>
+      <a href="/descargas/catalogo-servicios-nodosur.xlsx" download>Catálogo (.xlsx)</a>
+      <a href="/admin" rel="nofollow">Acceso equipo</a>
+    </nav>
+    <p class="copy">© 2026 {{ company.legal_name }} · Santiago, Chile</p>
+  </div>
+</footer>
+
+<!-- CHAT -->
+<button class="chat-fab" type="button" data-open-chat aria-haspopup="dialog" aria-controls="chat">{{ icon("chat", 22) }}<span>Habla con Nodo</span></button>
+<section class="chat" id="chat" role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
+  <header>
+    <div><h2 id="chat-title">Nodo · asistente NodoSur</h2><p class="mono"><span class="live-dot" aria-hidden="true"></span><span id="chat-mode">en línea</span></p></div>
+    <button type="button" class="icon-btn" data-close-chat aria-label="Cerrar chat">{{ icon("close", 20) }}</button>
+  </header>
+  <ol class="chat-log" id="chat-log" aria-live="polite">
+    <li class="msg bot">Hola, soy Nodo. Puedo contarte sobre soporte TI, cloud, web, ERP o agentes de IA, con precios de referencia. ¿Qué necesitas resolver?</li>
+  </ol>
+  <div class="chat-suggest">
+    <button type="button" data-ask="¿Cuánto cuesta un chatbot para WhatsApp?">Chatbot WhatsApp</button>
+    <button type="button" data-ask="Necesito soporte TI para 15 personas">Soporte TI</button>
+    <button type="button" data-ask="¿Qué incluye el ERP para pymes?">ERP Pyme</button>
+  </div>
+  <form class="chat-form" id="chat-form">
+    <label for="chat-input" class="sr-only">Escribe tu mensaje</label>
+    <input id="chat-input" name="q" maxlength="800" autocomplete="off" placeholder="Escribe tu pregunta…" required>
+    <button class="icon-btn send" type="submit" aria-label="Enviar">{{ icon("send", 20) }}</button>
+  </form>
+</section>
+
+<script src="/static/js/landing.js" defer></script>
+</body>
+</html>
