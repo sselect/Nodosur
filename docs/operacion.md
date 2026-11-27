@@ -9,7 +9,7 @@
 | `SECRET_KEY` | sí | Firma de la sesión del admin (≥ 12 caracteres, aleatoria) |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | sí | Login de `/admin` |
 | `AGENT_TOKEN` | sí | Token del disparador del agente (mismo valor en el secret de GitHub) |
-| `PUBLIC_BASE_URL` | sí | URL pública (enlaces en correos, sitemap) |
+| `PUBLIC_BASE_URL` | no | Dominio propio (enlaces en correos, sitemap, Open Graph). Si falta, se usa `RENDER_EXTERNAL_URL`, que Render define solo |
 | `SMTP_HOST` `SMTP_PORT` `SMTP_USER` `SMTP_PASSWORD` | para correos | Gmail: `smtp.gmail.com`, `587`, tu Gmail y una **contraseña de aplicación** |
 | `NOTIFY_TO` / `CONTACT_TO` | para correos | Destino de alertas de empleo y de leads |
 | `ANTHROPIC_API_KEY` | opcional | Activa el chatbot Nodo con IA (sin clave usa el modo básico) |

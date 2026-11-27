@@ -56,7 +56,7 @@
       return;
     }
     Chart.defaults.color = C.muted;
-    Chart.defaults.font.family = "IBM Plex Sans, system-ui, sans-serif";
+    Chart.defaults.font.family = "Montserrat, system-ui, sans-serif";
     charts[id] = new Chart($("#" + id), {
       type,
       data: { labels, datasets: [{ data, borderWidth: type === "line" ? 2 : 0, borderColor: C.signal, backgroundColor: extra.colors || C.signal, tension: 0.35, fill: false, pointRadius: 3, borderRadius: 6 }] },

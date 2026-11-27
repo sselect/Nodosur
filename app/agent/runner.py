@@ -177,7 +177,7 @@ async def run_agent(
         if to_notify:
             recipient = cfg.notify_email or settings.notify_to
             top = sorted(to_notify, key=lambda j: j.score, reverse=True)[:25]
-            subject, html_body, text_body = render_jobs_digest([j.to_dict() for j in top], settings.public_base_url)
+            subject, html_body, text_body = render_jobs_digest([j.to_dict() for j in top], settings.site_url)
             if await send_email(recipient, subject, html_body, text_body):
                 for job in top:
                     job.notified = True

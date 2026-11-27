@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.config import get_settings
@@ -52,9 +53,17 @@ def create_app() -> FastAPI:
         https_only=settings.is_prod,
     )
 
+    # gzip para HTML, CSS, JS y JSON; Starlette ya excluye text/event-stream (el SSE del panel) y woff2/imágenes
+    app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=6)
+
     @app.middleware("http")
     async def security_headers(request: Request, call_next):
         response = await call_next(request)
+        path = request.url.path
+        if path.startswith("/static/vendor/"):
+            response.headers.setdefault("Cache-Control", "public, max-age=604800")  # librerías versionadas
+        elif path.startswith("/static/"):
+            response.headers.setdefault("Cache-Control", "public, max-age=300")  # nuestro CSS/JS cambia con cada deploy
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
         response.headers.setdefault("X-Frame-Options", "DENY")
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")

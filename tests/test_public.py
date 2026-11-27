@@ -117,3 +117,42 @@ def test_salud_robots_y_sitemap(client):
     assert client.get("/healthz").json()["status"] == "ok"
     assert "Disallow: /admin" in client.get("/robots.txt").text
     assert "<urlset" in client.get("/sitemap.xml").text
+
+
+def test_landing_comparte_bien_en_redes(client):
+    html = client.get("/").text
+    for text in [
+        '<meta property="og:image" content="http://testserver/static/img/og-nodosur.png">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<link rel="canonical" href="http://testserver/">',
+        '<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">',
+    ]:
+        assert text in html
+    for path in ["/static/img/og-nodosur.png", "/static/img/apple-touch-icon.png"]:
+        r = client.get(path)
+        assert r.status_code == 200 and r.headers["content-type"] == "image/png"
+
+
+def test_url_publica_usa_la_de_render_si_no_hay_otra(monkeypatch):
+    from app.config import Settings
+
+    monkeypatch.delenv("PUBLIC_BASE_URL", raising=False)
+    monkeypatch.setenv("RENDER_EXTERNAL_URL", "https://nodosur.onrender.com")
+    assert Settings(_env_file=None).site_url == "https://nodosur.onrender.com"
+    monkeypatch.setenv("PUBLIC_BASE_URL", "https://nodosur.cl/")
+    assert Settings(_env_file=None).site_url == "https://nodosur.cl"
+    monkeypatch.delenv("PUBLIC_BASE_URL")
+    monkeypatch.delenv("RENDER_EXTERNAL_URL")
+    assert Settings(_env_file=None).site_url == "http://localhost:8000"
+
+
+def test_estaticos_comprimidos_y_cacheables(client):
+    r = client.get("/static/css/landing.css", headers={"Accept-Encoding": "gzip"})
+    assert r.status_code == 200 and r.headers["content-encoding"] == "gzip"
+    assert r.headers["cache-control"] == "public, max-age=300"
+    r = client.get("/static/vendor/gsap.min.js", headers={"Accept-Encoding": "gzip"})
+    assert r.headers["content-encoding"] == "gzip"
+    assert r.headers["cache-control"] == "public, max-age=604800"
+    # las fuentes van tal cual (woff2 ya viene comprimido)
+    r = client.get("/static/vendor/fonts/montserrat-latin-wght.woff2", headers={"Accept-Encoding": "gzip"})
+    assert r.status_code == 200 and "content-encoding" not in r.headers

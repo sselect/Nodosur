@@ -12,7 +12,8 @@ class Settings(BaseSettings):
 
     app_name: str = "NodoSur"
     env: str = "dev"  # dev | test | prod
-    public_base_url: str = "http://localhost:8000"
+    public_base_url: str = ""  # dominio propio; si falta, se usa la URL que entrega Render
+    render_external_url: str = ""  # Render la define sola (RENDER_EXTERNAL_URL)
 
     database_url: str = "sqlite:///./nodosur.db"
 
@@ -41,6 +42,11 @@ class Settings(BaseSettings):
     @property
     def is_prod(self) -> bool:
         return self.env == "prod"
+
+    @property
+    def site_url(self) -> str:
+        """URL pública sin "/" final: enlaces de correos, sitemap y Open Graph."""
+        return (self.public_base_url or self.render_external_url or "http://localhost:8000").rstrip("/")
 
     @property
     def sqlalchemy_url(self) -> str:

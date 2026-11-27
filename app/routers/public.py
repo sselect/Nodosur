@@ -42,6 +42,7 @@ def landing(request: Request):
             "process": PROCESS,
             "faq": FAQ,
             "service_count": sum(len(a["services"]) for a in AREAS),
+            "site_url": get_settings().site_url,
         },
     )
 
@@ -119,13 +120,13 @@ def healthz(db: Session = Depends(get_db)):
 
 @router.get("/robots.txt", include_in_schema=False)
 def robots():
-    base = get_settings().public_base_url.rstrip("/")
+    base = get_settings().site_url
     return PlainTextResponse(f"User-agent: *\nDisallow: /admin\nDisallow: /api\nSitemap: {base}/sitemap.xml\n")
 
 
 @router.get("/sitemap.xml", include_in_schema=False)
 def sitemap():
-    base = get_settings().public_base_url.rstrip("/")
+    base = get_settings().site_url
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
