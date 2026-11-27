@@ -75,6 +75,11 @@ def test_asistente_modo_basico(client):
     assert "IA-01" in data["reply"] and "$690.000" in data["reply"]
 
 
+def test_asistente_modo_basico_entiende_plurales():
+    reply = assistant.fallback_answer("¿Qué incluye el ERP para pymes?")
+    assert reply.splitlines()[1].startswith("• NodoSur ERP · Plan Pyme")
+
+
 def test_asistente_con_modelo_y_respaldo(monkeypatch):
     from app.config import get_settings
 

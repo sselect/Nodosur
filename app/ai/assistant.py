@@ -99,8 +99,13 @@ def sanitize_messages(messages: list[dict]) -> list[dict]:
     return clean
 
 
+def _stem(token: str) -> str:
+    """Plural simple a singular ("pymes" -> "pyme") para que el modo básico calce mejor."""
+    return token[:-1] if len(token) > 4 and token.endswith("s") else token
+
+
 def _tokens(text: str) -> set[str]:
-    return {t for t in re.findall(r"[a-z0-9]+", normalize(text)) if t not in STOPWORDS and len(t) > 2}
+    return {_stem(t) for t in re.findall(r"[a-z0-9]+", normalize(text)) if t not in STOPWORDS and len(t) > 2}
 
 
 def fallback_answer(question: str) -> str:
